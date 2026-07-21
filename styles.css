@@ -111,6 +111,18 @@ img { max-width: 100%; }
   color: var(--muted);
 }
 
+.nav-links a,
+.mobile-menu a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .25s ease;
+}
+
+.nav-links a:hover,
+.mobile-menu a:hover {
+    color: var(--cyan);
+}
+
 .hamburger {
   display: none;
   flex-direction: column;
