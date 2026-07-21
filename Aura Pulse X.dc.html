@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  @keyframes ticker-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes scroll-arrow { 0%, 100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(10px); opacity: 1; } }
+  @keyframes scan-sweep { 0% { top: -10%; } 100% { top: 110%; } }
+  @keyframes blink-chip { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+  @keyframes drift-float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-18px); } }
+  @keyframes spark-float { 0% { transform: translateY(0) translateX(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-120px) translateX(20px); opacity: 0; } }
+</style>
+</helmet>
+
+<div ref="{{ setRoot }}" style="{{ rootStyle }}">
+
+  <div data-cursor-dot="true" style="{{ cursorDotStyle }}"></div>
+  <div ref="{{ setCursorRing }}" style="position:fixed;top:0;left:0;width:34px;height:34px;margin-left:-17px;margin-top:-17px;border-radius:50%;border:1.5px solid #00E5FF;pointer-events:none;z-index:9998;box-shadow:0 0 12px rgba(0,229,255,0.5);display:{{ cursorLayerDisplay }};"></div>
+  <canvas ref="{{ setTrailCanvas }}" style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9997;display:{{ cursorLayerDisplay }};"></canvas>
+
+  <!-- NAV -->
+  <div style="{{ navStyle }}">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:2px;color:#F0F0F0;">AURA</div>
+    <div style="{{ navLinksStyle }}">
+      <span>Features</span><span>Tech</span><span>Buy</span>
+    </div>
+    <button style="{{ hamburgerStyle }}" onClick="{{ toggleNav }}">
+      <span style="{{ barTopStyle }}"></span>
+      <span style="{{ barMidStyle }}"></span>
+      <span style="{{ barBotStyle }}"></span>
+    </button>
+  </div>
+
+  <div style="{{ mobileMenuStyle }}">
+    <span onClick="{{ closeNav }}">Features</span>
+    <span onClick="{{ closeNav }}">Tech</span>
+    <span onClick="{{ closeNav }}">Buy</span>
+  </div>
+
+  <!-- HERO -->
+  <section style="{{ heroSectionStyle }}">
+    <div style="{{ heroLeftStyle }}">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:4px;color:#00E5FF;margin:0 0 14px;text-transform:uppercase;">Wireless ANC Headphones</div>
+      <h1 style="{{ heroHeadingStyle }}">
+        <span style="color:#0055FF;">PULSE</span><br>
+        <span style="color:#F0F0F0;">SOUND</span><br>
+        <span style="color:#00E5FF;">FIELD X</span>
+      </h1>
+      <p style="font-family:'Barlow Condensed',sans-serif;font-weight:400;font-size:17px;color:#8890A8;letter-spacing:0.5px;max-width:460px;margin:18px 0 24px;">Studio-grade active noise cancellation, tuned for the way you actually listen.</p>
+
+      <div style="display:flex;align-items:center;gap:22px;margin-bottom:28px;flex-wrap:wrap;">
+        <div style="font-family:'Barlow Condensed',sans-serif;display:flex;align-items:baseline;gap:5px;"><span style="font-size:26px;font-weight:600;color:#F0F0F0;">40</span><span style="font-size:14px;color:#8890A8;letter-spacing:1px;">mm Driver</span></div>
+        <div style="width:1px;height:26px;background:#0055FF;"></div>
+        <div style="font-family:'Barlow Condensed',sans-serif;padding:5px;"><span style="font-size:26px;font-weight:600;color:#F0F0F0;">20–40K</span><span style="font-size:14px;color:#8890A8;letter-spacing:1px;"> Hz</span></div>
+        <div style="width:1px;height:26px;background:#0055FF;"></div>
+        <div style="font-family:'Barlow Condensed',sans-serif;display:flex;align-items:baseline;gap:5px;"><span style="font-size:26px;font-weight:600;color:#F0F0F0;">60</span><span style="font-size:14px;color:#8890A8;letter-spacing:1px;"> Hours</span></div>
+      </div>
+
+      <div style="display:flex;gap:18px;">
+        <button style="background:#0055FF;color:#F0F0F0;border:none;padding:18px 40px;font-family:'Barlow Condensed',sans-serif;font-size:17px;letter-spacing:2px;font-weight:600;text-transform:uppercase;clip-path:polygon(12px 0,100% 0,calc(100% - 12px) 100%,0 100%);cursor:none;">Buy Now</button>
+        <button style="background:transparent;color:#00E5FF;border:1.5px solid #00E5FF;padding:18px 40px;font-family:'Barlow Condensed',sans-serif;font-size:17px;letter-spacing:2px;font-weight:600;text-transform:uppercase;cursor:none;">Full Specs</button>
+      </div>
+    </div>
+
+    <div ref="{{ setHeroRight }}" style="{{ heroRightStyle }}">
+      <canvas ref="{{ setHeroCanvas }}" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+      <div style="position:absolute;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,85,255,0.35),transparent 70%);filter:blur(30px);pointer-events:none;"></div>
+      <img ref="{{ setHeroImg }}" src="assets/hero-headphones-sm.png" alt="Aura Pulse X headphones" style="position:relative;width:min(60%,460px);z-index:3;transition:transform 0.15s ease-out;will-change:transform;">
+    </div>
+
+    <div style="{{ scrollHintStyle }}">
+      <span style="font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:3px;text-transform:uppercase;">Scroll</span>
+      <div style="animation:scroll-arrow 1.8s ease-in-out infinite;font-size:18px;color:#00E5FF;">↓</div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div style="width:100%;overflow:hidden;background:#050510;border-top:1px solid #12132a;border-bottom:1px solid #12132a;padding:32px 0;margin:25px 0;">
+    <div style="display:inline-flex;white-space:nowrap;animation:ticker-scroll 22s linear infinite;">
+      <span style="{{ tickerTextStyle }}">AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM · AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM ·&nbsp;</span>
+      <span style="{{ tickerTextStyle }}">AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM · AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM ·&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- TECHNOLOGY -->
+  <section ref="{{ setTechSection }}" style="{{ techSectionStyle }}">
+    <div style="{{ techImgWrapStyle }}">
+      <img src="assets/earcup-closeup-sm.png" alt="Earcup detail" style="width:100%;height:100%;object-fit:cover;display:block;">
+      <div style="position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#0055FF,transparent);box-shadow:0 0 20px 4px rgba(0,85,255,0.7);animation:scan-sweep 3.2s linear infinite;"></div>
+      <div style="position:absolute;top:24px;left:24px;width:34px;height:34px;border-top:2px solid #00E5FF;border-left:2px solid #00E5FF;"></div>
+      <div style="position:absolute;top:24px;right:24px;width:34px;height:34px;border-top:2px solid #00E5FF;border-right:2px solid #00E5FF;"></div>
+      <div style="position:absolute;bottom:24px;left:24px;width:34px;height:34px;border-bottom:2px solid #00E5FF;border-left:2px solid #00E5FF;"></div>
+      <div style="position:absolute;bottom:24px;right:24px;width:34px;height:34px;border-bottom:2px solid #00E5FF;border-right:2px solid #00E5FF;"></div>
+      <div style="position:absolute;top:16%;left:8%;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:#00E5FF;background:rgba(4,4,15,0.7);padding:6px 10px;border:1px solid #00E5FF;animation:blink-chip 2.4s ease-in-out infinite;">ACTIVE NOISE CANCEL</div>
+      <div style="position:absolute;top:34%;right:8%;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:#00E5FF;background:rgba(4,4,15,0.7);padding:6px 10px;border:1px solid #00E5FF;animation:blink-chip 2.4s ease-in-out infinite 0.6s;">40mm DRIVER</div>
+      <div style="position:absolute;bottom:32% ;left:10%;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:#00E5FF;background:rgba(4,4,15,0.7);padding:6px 10px;border:1px solid #00E5FF;animation:blink-chip 2.4s ease-in-out infinite 1.2s;">APTX LOSSLESS</div>
+      <div style="position:absolute;bottom:14%;right:10%;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:2px;color:#00E5FF;background:rgba(4,4,15,0.7);padding:6px 10px;border:1px solid #00E5FF;animation:blink-chip 2.4s ease-in-out infinite 1.8s;">60H BATTERY</div>
+    </div>
+
+    <div style="{{ techRightStyle }}">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(44px,5vw,72px);line-height:0.98;margin:0 0 40px;">
+        <span style="color:#F0F0F0;">Hear Every</span><br><span style="color:#00E5FF;">Detail.</span>
+      </h2>
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <sc-for list="{{ specCards }}" as="s" hint-placeholder-count="4">
+          <div style="{{ s.cardStyle }}" onMouseEnter="{{ s.onEnter }}" onMouseLeave="{{ s.onLeave }}">
+            <div style="display:flex;justify-content:space-between;align-items:baseline;">
+              <span style="font-family:'Barlow Condensed',sans-serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;color:#8890A8;">{{ s.label }}</span>
+              <span style="{{ s.valueStyle }}">{{ s.value }}</span>
+            </div>
+            <div style="width:100%;height:4px;background:#12132a;margin-top:14px;border-radius:2px;overflow:hidden;">
+              <div style="{{ s.barStyle }}"></div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section ref="{{ setExpSection }}" style="{{ expSectionStyle }}">
+    <canvas ref="{{ setSparkCanvas }}" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
+
+    <div style="display:flex;flex-direction:column;justify-content:center;position:relative;z-index:2;">
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,6vw,84px);line-height:0.92;margin:0 0 26px;">
+        <span style="color:#0055FF;">FEEL</span><br><span style="color:#F0F0F0;">THE</span><br><span style="color:#00E5FF;">SOUND</span>
+      </h2>
+      <p style="font-family:'Barlow',sans-serif;font-weight:300;font-size:17px;line-height:1.6;color:#8890A8;max-width:340px;margin-bottom:34px;">Adaptive ANC and a 40mm driver tuned for depth — worn all day, felt in every track.</p>
+      <button style="align-self:flex-start;background:transparent;color:#00E5FF;border:1.5px solid #00E5FF;padding:16px 36px;font-family:'Barlow Condensed',sans-serif;font-size:16px;letter-spacing:2px;font-weight:600;text-transform:uppercase;cursor:none;transition:background 0.25s ease,color 0.25s ease;" style-hover="{background:#0055FF;color:#F0F0F0;border-color:#0055FF;}">Buy Now</button>
+    </div>
+
+    <div style="{{ expImgColStyle }}">
+      <div style="position:relative;width:min(80%,420px);animation:drift-float 6s ease-in-out infinite;">
+        <div style="position:absolute;inset:-10%;background:radial-gradient(circle,rgba(0,229,255,0.35),rgba(0,85,255,0.2) 45%,transparent 75%);filter:blur(40px);"></div>
+        <img src="assets/lifestyle-worn-sm.png" alt="Aura Pulse X worn" style="position:relative;width:100%;display:block;">
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;justify-content:center;gap:28px;position:relative;z-index:2;">
+      <canvas ref="{{ setRadarCanvas }}" width="320" height="320" style="width:100%;max-width:320px;align-self:center;"></canvas>
+      <div style="display:flex;justify-content:center;gap:18px;font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1.5px;">
+        <span style="color:#0055FF;">— AURA</span><span style="color:#8890A8;">— INDUSTRY AVG</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <sc-for list="{{ statCards }}" as="st" hint-placeholder-count="3">
+          <div style="{{ st.cardStyle }}" onMouseEnter="{{ st.onEnter }}" onMouseLeave="{{ st.onLeave }}">
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;color:#8890A8;text-transform:uppercase;">{{ st.label }}</span>
+            <span style="font-family:'Bebas Neue',sans-serif;font-size:26px;color:#F0F0F0;">{{ st.value }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <footer style="{{ footerStyle }}">
+    <span>AURA</span>
+    <span>© 2026 Aura Audio. Pulse X.</span>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;particleCount&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:150,&quot;min&quot;:50,&quot;max&quot;:250,&quot;step&quot;:10,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero soundscape&quot;},&quot;tiltIntensity&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:14,&quot;min&quot;:0,&quot;max&quot;:30,&quot;step&quot;:1,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Hero soundscape&quot;},&quot;radarAnimated&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Experience&quot;}}">
+class Component extends DCLogic {
+  state = { hoveredSpec: -1, hoveredStat: -1, revealedTech: false, revealedExp: false, cursorX: -100, cursorY: -100, isMobile: false, navOpen: false };
+
+  specs = [
+    { label: 'DRIVER', value: '40mm', bar: 82 },
+    { label: 'ANC DEPTH', value: '-35dB', bar: 90 },
+    { label: 'FREQUENCY', value: '20Hz–40kHz', bar: 96 },
+    { label: 'BATTERY', value: '60H', bar: 100 },
+  ];
+  stats = [
+    { label: 'Units Sold', value: '250K+' },
+    { label: 'Warranty', value: '2 Years' },
+    { label: 'Ships In', value: '2 Days' },
+  ];
+
+  setRoot = el => { this.rootEl = el; };
+  setCursorRing = el => { this.cursorRingEl = el; };
+  setTrailCanvas = el => { this.trailCanvasEl = el; };
+  setHeroRight = el => { this.heroRightEl = el; };
+  setHeroCanvas = el => { this.heroCanvasEl = el; };
+  setHeroImg = el => { this.heroImgEl = el; };
+  setTechSection = el => { this.techSectionEl = el; };
+  setExpSection = el => { this.expSectionEl = el; };
+  setRadarCanvas = el => { this.radarCanvasEl = el; };
+  setSparkCanvas = el => { this.sparkCanvasEl = el; };
+
+  componentDidMount() {
+    this.mq = window.matchMedia('(max-width: 760px)');
+    this.onMqChange = e => this.setState({ isMobile: e.matches });
+    if (this.mq.addEventListener) this.mq.addEventListener('change', this.onMqChange); else this.mq.addListener(this.onMqChange);
+    if (this.mq.matches) this.setState({ isMobile: true });
+
+    this.mouse = { x: -9999, y: -9999 };
+    this.ringPos = { x: -100, y: -100 };
+    this.trail = [];
+    this.sparks = [];
+    this.particles = [];
+    this.rafId = null;
+    this.t0 = performance.now();
+
+    this.onMouseMove = e => {
+      this.mouse.x = e.clientX;
+      this.mouse.y = e.clientY;
+      this.trail.push({ x: e.clientX, y: e.clientY, life: 1 });
+      if (this.trail.length > 40) this.trail.shift();
+      const cursorDot = this.rootEl && this.rootEl.querySelector('[data-cursor-dot]');
+      if (cursorDot) cursorDot.style.transform = `translate3d(${e.clientX - 5}px, ${e.clientY - 5}px, 0)`;
+    };
+    window.addEventListener('mousemove', this.onMouseMove);
+
+    this.onHeroMove = e => {
+      const r = this.heroRightEl.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const dx = (e.clientX - cx) / (r.width / 2);
+      const dy = (e.clientY - cy) / (r.height / 2);
+      const ti = this.props.tiltIntensity ?? 14;
+      if (this.heroImgEl) this.heroImgEl.style.transform = `perspective(900px) rotateY(${dx * ti}deg) rotateX(${-dy * ti}deg)`;
+    };
+    this.onHeroLeave = () => { if (this.heroImgEl) this.heroImgEl.style.transform = 'perspective(900px) rotateY(0deg) rotateX(0deg)'; };
+    if (this.heroRightEl) {
+      this.heroRightEl.addEventListener('mousemove', this.onHeroMove);
+      this.heroRightEl.addEventListener('mouseleave', this.onHeroLeave);
+    }
+
+    const count = this.props.particleCount ?? 150;
+    this.initParticles = (w, h) => {
+      this.particles = [];
+      for (let i = 0; i < count; i++) {
+        this.particles.push({
+          x: Math.random() * w, y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.25, vy: (Math.random() - 0.5) * 0.25,
+          c: i % 2 === 0 ? '0,85,255' : '0,229,255'
+        });
+      }
+    };
+
+    const resize = () => {
+      if (this.heroCanvasEl && this.heroRightEl) {
+        const r = this.heroRightEl.getBoundingClientRect();
+        this.heroCanvasEl.width = r.width; this.heroCanvasEl.height = r.height;
+        this.initParticles(r.width, r.height);
+      }
+      if (this.trailCanvasEl) { this.trailCanvasEl.width = window.innerWidth; this.trailCanvasEl.height = window.innerHeight; }
+      if (this.sparkCanvasEl && this.expSectionEl) {
+        const r = this.expSectionEl.getBoundingClientRect();
+        this.sparkCanvasEl.width = r.width; this.sparkCanvasEl.height = r.height;
+        if (this.sparks.length === 0) {
+          for (let i = 0; i < 40; i++) this.sparks.push({ x: Math.random() * r.width, y: Math.random() * r.height, vy: 0.15 + Math.random() * 0.25, r: 1 + Math.random() * 1.5, phase: Math.random() * 100 });
+        }
+      }
+    };
+    window.addEventListener('resize', resize);
+    resize();
+
+    this.observer = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        if (en.target === this.techSectionEl) { this.setState({ revealedTech: true }); this.observer.unobserve(en.target); }
+        if (en.target === this.expSectionEl) { this.setState({ revealedExp: true }); this.observer.unobserve(en.target); }
+      });
+    }, { threshold: 0.2 });
+    if (this.techSectionEl) this.observer.observe(this.techSectionEl);
+    if (this.expSectionEl) this.observer.observe(this.expSectionEl);
+
+    const radarAxes = 6;
+    const auraVals = [0.9, 0.8, 0.85, 0.95, 0.8, 0.9];
+    const industryVals = [0.6, 0.65, 0.6, 0.6, 0.65, 0.65];
+    const polyPoint = (cx, cy, radius, i, val) => {
+      const angle = (Math.PI * 2 * i) / radarAxes - Math.PI / 2;
+      return { x: cx + Math.cos(angle) * radius * val, y: cy + Math.sin(angle) * radius * val };
+    };
+
+    const loop = (now) => {
+      const t = (now - this.t0) / 1000;
+
+      // ring easing for cursor ring
+      this.ringPos.x += (this.mouse.x - this.ringPos.x) * 0.18;
+      this.ringPos.y += (this.mouse.y - this.ringPos.y) * 0.18;
+      if (this.cursorRingEl) this.cursorRingEl.style.transform = `translate3d(${this.ringPos.x}px, ${this.ringPos.y}px, 0)`;
+
+      // trail canvas
+      if (this.trailCanvasEl) {
+        const ctx = this.trailCanvasEl.getContext('2d');
+        ctx.clearRect(0, 0, this.trailCanvasEl.width, this.trailCanvasEl.height);
+        this.trail.forEach(p => {
+          p.life *= 0.92;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 4 * p.life, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0,85,255,${p.life * 0.5})`;
+          ctx.fill();
+        });
+        this.trail = this.trail.filter(p => p.life > 0.03);
+      }
+
+      // hero canvas: rings + particles
+      if (this.heroCanvasEl && this.particles.length) {
+        const ctx = this.heroCanvasEl.getContext('2d');
+        const w = this.heroCanvasEl.width, h = this.heroCanvasEl.height;
+        ctx.clearRect(0, 0, w, h);
+        const cx = w / 2, cy = h * 0.48;
+        for (let i = 0; i < 4; i++) {
+          const phase = (((t * 60 + i * 90) % 360) + 360) % 360;
+          const radius = Math.max(0, phase);
+          const op = Math.max(0, 0.06 * (1 - radius / 300));
+          ctx.beginPath();
+          ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(0,85,255,${op})`;
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        }
+        const mx = this.mouse.x - (this.heroRightEl ? this.heroRightEl.getBoundingClientRect().left : 0);
+        const my = this.mouse.y - (this.heroRightEl ? this.heroRightEl.getBoundingClientRect().top : 0);
+        this.particles.forEach(p => {
+          const dxc = p.x - cx, dyc = p.y - cy;
+          const dc = Math.hypot(dxc, dyc) || 1;
+          p.vx += (dxc / dc) * 0.0025;
+          p.vy += (dyc / dc) * 0.0025;
+          const dxm = mx - p.x, dym = my - p.y;
+          const dm = Math.hypot(dxm, dym);
+          if (dm < 150 && dm > 26) { p.vx += (dxm / dm) * 0.35; p.vy += (dym / dm) * 0.35; }
+          else if (dm <= 26 && dm > 0.1) { p.vx -= (dxm / dm) * 0.6; p.vy -= (dym / dm) * 0.6; }
+          p.vx *= 0.95; p.vy *= 0.95;
+          p.x += p.vx; p.y += p.vy;
+          if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+          if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+        });
+        for (let i = 0; i < this.particles.length; i++) {
+          for (let j = i + 1; j < this.particles.length; j++) {
+            const a = this.particles[i], b = this.particles[j];
+            const d2 = (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
+            if (d2 < 70 * 70) {
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+              ctx.strokeStyle = `rgba(0,85,255,${0.12 * (1 - Math.sqrt(d2) / 70)})`;
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+          }
+        }
+        this.particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 1.8, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${p.c},0.85)`;
+          ctx.fill();
+        });
+      }
+
+      // radar chart
+      if (this.radarCanvasEl && (this.props.radarAnimated ?? true) !== false) {
+        const ctx = this.radarCanvasEl.getContext('2d');
+        const w = this.radarCanvasEl.width, h = this.radarCanvasEl.height;
+        ctx.clearRect(0, 0, w, h);
+        const cx = w / 2, cy = h / 2;
+        const breathe = 1 + Math.sin(t * 1.2) * 0.03;
+        const maxR = (Math.min(w, h) / 2 - 26) * breathe;
+        const labels = ['BASS', 'MIDS', 'TREBLE', 'ANC', 'STAGE', 'BUILD'];
+        for (let ring = 1; ring <= 4; ring++) {
+          ctx.beginPath();
+          for (let i = 0; i <= radarAxes; i++) {
+            const p = polyPoint(cx, cy, maxR * (ring / 4), i % radarAxes, 1);
+            if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          }
+          ctx.strokeStyle = 'rgba(136,144,168,0.18)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+        for (let i = 0; i < radarAxes; i++) {
+          const p = polyPoint(cx, cy, maxR, i, 1);
+          ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(p.x, p.y);
+          ctx.strokeStyle = 'rgba(136,144,168,0.18)'; ctx.stroke();
+          ctx.font = '11px Barlow Condensed, sans-serif';
+          ctx.fillStyle = '#8890A8';
+          ctx.textAlign = 'center';
+          ctx.fillText(labels[i], cx + Math.cos((Math.PI * 2 * i) / radarAxes - Math.PI / 2) * (maxR + 16), cy + Math.sin((Math.PI * 2 * i) / radarAxes - Math.PI / 2) * (maxR + 16) + 4);
+        }
+        const drawPoly = (vals, color, fill) => {
+          ctx.beginPath();
+          vals.forEach((v, i) => {
+            const p = polyPoint(cx, cy, maxR, i, v);
+            if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y);
+          });
+          ctx.closePath();
+          if (fill) { ctx.fillStyle = color.replace('VAL', '0.15'); ctx.fill(); }
+          ctx.strokeStyle = color.replace('VAL', '0.9');
+          ctx.lineWidth = 2;
+          ctx.stroke();
+        };
+        drawPoly(industryVals, 'rgba(136,144,168,VAL)', false);
+        drawPoly(auraVals, 'rgba(0,85,255,VAL)', true);
+        const sweepAngle = (t * 0.6) % (Math.PI * 2);
+        const sx = cx + Math.cos(sweepAngle) * maxR, sy = cy + Math.sin(sweepAngle) * maxR;
+        const grad = ctx.createLinearGradient(cx, cy, sx, sy);
+        grad.addColorStop(0, 'rgba(0,229,255,0.6)');
+        grad.addColorStop(1, 'rgba(0,229,255,0)');
+        ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(sx, sy);
+        ctx.strokeStyle = grad; ctx.lineWidth = 2; ctx.stroke();
+      }
+
+      // spark canvas
+      if (this.sparkCanvasEl && this.sparks.length) {
+        const ctx = this.sparkCanvasEl.getContext('2d');
+        const w = this.sparkCanvasEl.width, h = this.sparkCanvasEl.height;
+        ctx.clearRect(0, 0, w, h);
+        this.sparks.forEach(s => {
+          s.y -= s.vy;
+          if (s.y < -10) s.y = h + 10;
+          const op = 0.35 + 0.35 * Math.sin(t * 2 + s.phase);
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(0,85,255,${Math.max(0.1, op)})`;
+          ctx.fill();
+        });
+      }
+
+      this.rafId = requestAnimationFrame(loop);
+    };
+    this.rafId = requestAnimationFrame(loop);
+  }
+
+  componentWillUnmount() {
+    if (this.rafId) cancelAnimationFrame(this.rafId);
+    window.removeEventListener('mousemove', this.onMouseMove);
+    window.removeEventListener('resize', this.resize);
+    if (this.heroRightEl) {
+      this.heroRightEl.removeEventListener('mousemove', this.onHeroMove);
+      this.heroRightEl.removeEventListener('mouseleave', this.onHeroLeave);
+    }
+    if (this.observer) this.observer.disconnect();
+    if (this.mq) { if (this.mq.removeEventListener) this.mq.removeEventListener('change', this.onMqChange); else this.mq.removeListener(this.onMqChange); }
+  }
+
+  renderVals() {
+    const { hoveredSpec, hoveredStat, revealedTech, isMobile, navOpen } = this.state;
+    const toggleNav = () => this.setState(s => ({ navOpen: !s.navOpen }));
+    const closeNav = () => this.setState({ navOpen: false });
+    const barStyle = { width: '22px', height: '2px', background: '#F0F0F0', transition: 'transform 0.25s ease, opacity 0.25s ease' };
+    const specCards = this.specs.map((s, i) => ({
+      label: s.label,
+      value: s.value,
+      cardStyle: {
+        background: '#0a0a1a',
+        borderLeft: `3px solid ${hoveredSpec === i ? '#00E5FF' : '#0055FF'}`,
+        padding: '18px 22px',
+        transition: 'transform 0.25s ease, border-color 0.25s ease',
+        transform: hoveredSpec === i ? 'translateX(10px)' : 'translateX(0)',
+        cursor: 'none',
+      },
+      valueStyle: {
+        fontFamily: "'Bebas Neue', sans-serif",
+        fontSize: '24px',
+        color: hoveredSpec === i ? '#00E5FF' : '#F0F0F0',
+        textShadow: hoveredSpec === i ? '0 0 14px rgba(0,229,255,0.7)' : 'none',
+        transition: 'color 0.25s ease, text-shadow 0.25s ease',
+      },
+      barStyle: {
+        height: '100%',
+        width: revealedTech ? s.bar + '%' : '0%',
+        background: 'linear-gradient(90deg,#0055FF,#00E5FF)',
+        transition: 'width 1.3s cubic-bezier(0.16,1,0.3,1)',
+      },
+      onEnter: () => this.setState({ hoveredSpec: i }),
+      onLeave: () => this.setState({ hoveredSpec: -1 }),
+    }));
+
+    const statCards = this.stats.map((s, i) => ({
+      label: s.label,
+      value: s.value,
+      cardStyle: {
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        background: '#0a0a1a', padding: '16px 20px',
+        border: `1px solid ${hoveredStat === i ? '#00E5FF' : '#12132a'}`,
+        boxShadow: hoveredStat === i ? '0 0 20px rgba(0,229,255,0.35)' : 'none',
+        transform: hoveredStat === i ? 'translateX(-8px)' : 'translateX(0)',
+        transition: 'all 0.25s ease',
+        cursor: 'none',
+      },
+      onEnter: () => this.setState({ hoveredStat: i }),
+      onLeave: () => this.setState({ hoveredStat: -1 }),
+    }));
+
+    return {
+      isMobile,
+      rootStyle: { background: '#04040F', color: '#F0F0F0', fontFamily: "'Barlow',sans-serif", cursor: isMobile ? 'auto' : 'none', overflowX: 'hidden', position: 'relative', width: '100%' },
+      cursorLayerDisplay: isMobile ? 'none' : 'block',
+      navStyle: { position: isMobile ? 'fixed' : 'absolute', top: 0, left: 0, right: 0, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: isMobile ? '20px 20px' : '32px 56px', background: isMobile ? '#04040F' : 'none', zIndex: 20 },
+      navLinksStyle: { display: isMobile ? 'none' : 'flex', gap: '36px', fontFamily: "'Barlow Condensed',sans-serif", fontSize: '16px', letterSpacing: '2px', textTransform: 'uppercase', color: '#8890A8' },
+      hamburgerStyle: { display: isMobile ? 'flex' : 'none', flexDirection: 'column', gap: '5px', background: 'none', border: 'none', padding: '8px', cursor: isMobile ? 'auto' : 'none', zIndex: 21 },
+      barTopStyle: { ...barStyle, transform: navOpen ? 'translateY(7px) rotate(45deg)' : 'none' },
+      barMidStyle: { ...barStyle, opacity: navOpen ? 0 : 1 },
+      barBotStyle: { ...barStyle, transform: navOpen ? 'translateY(-7px) rotate(-45deg)' : 'none' },
+      mobileMenuStyle: { display: isMobile ? 'flex' : 'none', flexDirection: 'column', gap: '28px', position: 'fixed', inset: 0, background: '#04040F', padding: '96px 32px 32px', height: navOpen ? '100vh' : '0', overflow: 'hidden', opacity: navOpen ? 1 : 0, pointerEvents: navOpen ? 'auto' : 'none', transition: 'height 0.3s ease, opacity 0.25s ease', zIndex: 19, fontFamily: "'Barlow Condensed',sans-serif", fontSize: '28px', letterSpacing: '2px', textTransform: 'uppercase', color: '#F0F0F0' },
+      toggleNav, closeNav,
+      heroSectionStyle: { height: isMobile ? 'auto' : '100vh', boxSizing: 'border-box', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', alignItems: 'center', padding: isMobile ? '110px 24px 60px' : '0 56px', position: 'relative', overflow: isMobile ? 'visible' : 'hidden', gap: isMobile ? '32px' : '0' },
+      heroLeftStyle: { position: 'relative', zIndex: 5, paddingTop: isMobile ? '0' : '60px', order: 0 },
+      heroRightStyle: { position: 'relative', height: isMobile ? '320px' : '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', order: isMobile ? 2 : 0 },
+      scrollHintStyle: { display: isMobile ? 'none' : 'flex', position: 'absolute', bottom: '36px', left: '50%', transform: 'translateX(-50%)', flexDirection: 'column', alignItems: 'center', gap: '8px', color: '#8890A8' },
+      tickerTextStyle: { fontFamily: "'Bebas Neue',sans-serif", fontSize: isMobile ? '18px' : '26px', letterSpacing: '3px', color: '#0055FF', paddingRight: '40px' },
+      techSectionStyle: { display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', minHeight: isMobile ? 'auto' : '100vh' },
+      techImgWrapStyle: { position: 'relative', overflow: 'hidden', boxShadow: '6px 0 40px -10px rgba(0,229,255,0.25)', height: isMobile ? '360px' : 'auto' },
+      techRightStyle: { padding: isMobile ? '48px 24px' : '80px 64px', display: 'flex', flexDirection: 'column', justifyContent: 'center' },
+      expSectionStyle: { position: 'relative', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1.1fr 1fr', gap: isMobile ? '48px' : '24px', minHeight: isMobile ? 'auto' : '100vh', padding: isMobile ? '60px 24px' : '90px 56px', overflow: 'hidden' },
+      expImgColStyle: { display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', zIndex: 2, order: isMobile ? -1 : 0 },
+      heroHeadingStyle: { fontFamily: "'Bebas Neue',sans-serif", fontSize: isMobile ? 'clamp(80px,22vw,130px)' : 'clamp(52px,7.2vw,108px)', lineHeight: 0.92, margin: 0 },
+      footerStyle: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: isMobile ? '24px 24px' : '32px 56px', borderTop: '1px solid #12132a', fontFamily: "'Barlow Condensed',sans-serif", fontSize: '13px', letterSpacing: '1px', color: '#8890A8', flexWrap: 'wrap', gap: '8px' },
+      setRoot: this.setRoot,
+      setCursorRing: this.setCursorRing,
+      setTrailCanvas: this.setTrailCanvas,
+      setHeroRight: this.setHeroRight,
+      setHeroCanvas: this.setHeroCanvas,
+      setHeroImg: this.setHeroImg,
+      setTechSection: this.setTechSection,
+      setExpSection: this.setExpSection,
+      setRadarCanvas: this.setRadarCanvas,
+      setSparkCanvas: this.setSparkCanvas,
+      cursorDotStyle: { position: 'fixed', top: 0, left: 0, width: '10px', height: '10px', borderRadius: '50%', background: '#0055FF', boxShadow: '0 0 10px 2px rgba(0,85,255,0.8)', pointerEvents: 'none', zIndex: 9999 },
+      specCards, statCards,
+    };
+  }
+}
+
+</script>
+</body>
+</html>
