@@ -197,7 +197,7 @@ img { max-width: 100%; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  padding: 0 56px;
+  padding: 100px 56px 0;
   position: relative;
   overflow: hidden;
 }
