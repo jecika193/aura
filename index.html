@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Aura Pulse X — Wireless ANC Headphones</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Aura Pulse X — studio-grade active noise cancellation wireless headphones. 40mm driver, 60 hour battery, aptX lossless.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="root">
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+  <canvas class="trail-canvas" id="trailCanvas"></canvas>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-logo">AURA</div>
+    <div class="nav-links">
+      <span>Features</span><span>Tech</span><span>Buy</span>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span class="bar-top"></span>
+      <span class="bar-mid"></span>
+      <span class="bar-bot"></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <span>Features</span>
+    <span>Tech</span>
+    <span>Buy</span>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Wireless ANC Headphones</div>
+      <h1 class="hero-heading">
+        <span class="l1">PULSE</span><br>
+        <span class="l2">SOUND</span><br>
+        <span class="l3">FIELD X</span>
+      </h1>
+      <p class="hero-copy">Studio-grade active noise cancellation, tuned for the way you actually listen.</p>
+
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="num">40</span><span class="unit">mm Driver</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="num">20–40K</span><span class="unit"> Hz</span></div>
+        <div class="hero-stat-divider"></div>
+        <div class="hero-stat"><span class="num">60</span><span class="unit"> Hours</span></div>
+      </div>
+
+      <div class="hero-actions">
+        <button class="btn-solid">Buy Now</button>
+        <button class="btn-outline">Full Specs</button>
+      </div>
+    </div>
+
+    <div class="hero-right" id="heroRight">
+      <canvas class="hero-canvas" id="heroCanvas"></canvas>
+      <div class="hero-glow"></div>
+      <img class="hero-img" id="heroImg" src="assets/hero-headphones-sm.png" alt="Aura Pulse X headphones">
+    </div>
+
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="arrow">↓</div>
+    </div>
+  </section>
+
+  <!-- TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker-track">
+      <span>AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM · AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM ·&nbsp;</span>
+      <span>AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM · AURA AUDIO · 40mm DRIVER · ANC STUDIO GRADE · PULSE X · WIRELESS FREEDOM ·&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- TECHNOLOGY -->
+  <section class="tech" id="techSection">
+    <div class="tech-img-wrap">
+      <img src="assets/earcup-closeup-sm.png" alt="Earcup detail">
+      <div class="scan-line"></div>
+      <div class="corner tl"></div>
+      <div class="corner tr"></div>
+      <div class="corner bl"></div>
+      <div class="corner br"></div>
+      <div class="chip c1">ACTIVE NOISE CANCEL</div>
+      <div class="chip c2">40mm DRIVER</div>
+      <div class="chip c3">APTX LOSSLESS</div>
+      <div class="chip c4">60H BATTERY</div>
+    </div>
+
+    <div class="tech-right">
+      <h2 class="tech-heading">
+        <span class="l1">Hear Every</span><br><span class="l2">Detail.</span>
+      </h2>
+      <div class="spec-list" id="specList">
+        <div class="spec-card" style="--bar-pct:82%">
+          <div class="spec-row">
+            <span class="spec-label">DRIVER</span>
+            <span class="spec-value">40mm</span>
+          </div>
+          <div class="spec-bar-track"><div class="spec-bar-fill"></div></div>
+        </div>
+        <div class="spec-card" style="--bar-pct:90%">
+          <div class="spec-row">
+            <span class="spec-label">ANC DEPTH</span>
+            <span class="spec-value">-35dB</span>
+          </div>
+          <div class="spec-bar-track"><div class="spec-bar-fill"></div></div>
+        </div>
+        <div class="spec-card" style="--bar-pct:96%">
+          <div class="spec-row">
+            <span class="spec-label">FREQUENCY</span>
+            <span class="spec-value">20Hz–40kHz</span>
+          </div>
+          <div class="spec-bar-track"><div class="spec-bar-fill"></div></div>
+        </div>
+        <div class="spec-card" style="--bar-pct:100%">
+          <div class="spec-row">
+            <span class="spec-label">BATTERY</span>
+            <span class="spec-value">60H</span>
+          </div>
+          <div class="spec-bar-track"><div class="spec-bar-fill"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="experience" id="expSection">
+    <canvas class="spark-canvas" id="sparkCanvas"></canvas>
+
+    <div class="exp-left">
+      <h2 class="exp-heading">
+        <span class="l1">FEEL</span><br><span class="l2">THE</span><br><span class="l3">SOUND</span>
+      </h2>
+      <p class="exp-copy">Adaptive ANC and a 40mm driver tuned for depth — worn all day, felt in every track.</p>
+      <button class="btn-outline-lg">Buy Now</button>
+    </div>
+
+    <div class="exp-img-col">
+      <div class="exp-img-inner">
+        <div class="exp-img-glow"></div>
+        <img src="assets/lifestyle-worn-sm.png" alt="Aura Pulse X worn">
+      </div>
+    </div>
+
+    <div class="exp-right">
+      <canvas class="radar-canvas" id="radarCanvas" width="320" height="320"></canvas>
+      <div class="radar-legend">
+        <span class="aura">— AURA</span><span class="industry">— INDUSTRY AVG</span>
+      </div>
+      <div class="stat-list" id="statList">
+        <div class="stat-card">
+          <span class="stat-label">Units Sold</span>
+          <span class="stat-value">250K+</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Warranty</span>
+          <span class="stat-value">2 Years</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-label">Ships In</span>
+          <span class="stat-value">2 Days</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <span>AURA</span>
+    <span>© 2026 Aura Audio. Pulse X.</span>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
