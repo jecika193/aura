@@ -23,12 +23,12 @@
     const open = hamburger.classList.toggle('open');
     mobileMenu.classList.toggle('open', open);
   });
-  mobileMenu.querySelectorAll('span').forEach(item => {
-    item.addEventListener('click', () => {
-      hamburger.classList.remove('open');
-      mobileMenu.classList.remove('open');
+mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
     });
-  });
+});
 
   /* ---------- Custom cursor ---------- */
   const mouse = { x: -9999, y: -9999 };
